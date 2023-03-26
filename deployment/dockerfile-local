@@ -1,0 +1,17 @@
+FROM golang:1.19.4-alpine3.17 as builder
+
+
+# Install some build deps + ssh tools for the setup below.
+RUN apk update && apk --no-cache add  build-base  git bash  coreutils openssh  openssl
+
+# this command if you get source from bitbucket repos
+# Create the directory where the application will reside
+RUN mkdir -p /go/src/gitlab.privy.id/order_service
+
+RUN go install github.com/cortesi/modd/cmd/modd@latest
+
+COPY deployment/live-dev.conf /go
+
+WORKDIR /go/src/gitlab.privy.id/order_service
+
+CMD ["modd","-f", "/go/live-dev.conf"]
