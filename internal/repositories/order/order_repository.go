@@ -7,5 +7,5 @@ import (
 )
 
 type OrderRepository interface {
-	Order(ctx context.Context, param interface{}) (entity.OrderResponse, error)
+	Order(ctx context.Context, param interface{}) ([]entity.OrderResponse, error)
 }

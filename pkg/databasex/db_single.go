@@ -7,9 +7,9 @@ import (
 	"fmt"
 
 	"github.com/jmoiron/sqlx"
-	
+
 	"gitlab.privy.id/order_service/pkg/tracer"
-    "gitlab.privy.id/order_service/pkg/util"
+	"gitlab.privy.id/order_service/pkg/util"
 )
 
 var (
