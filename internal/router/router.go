@@ -2,22 +2,22 @@
 package router
 
 import (
-    "context"
+	"context"
 	"encoding/json"
 	"net/http"
 	"runtime/debug"
 
 	"gitlab.privy.id/order_service/internal/appctx"
-    "gitlab.privy.id/order_service/internal/bootstrap"
-    "gitlab.privy.id/order_service/internal/consts"
-    "gitlab.privy.id/order_service/internal/handler"
-    "gitlab.privy.id/order_service/internal/middleware"
-    "gitlab.privy.id/order_service/internal/ucase"
-    "gitlab.privy.id/order_service/pkg/logger"
-    "gitlab.privy.id/order_service/pkg/routerkit"
-    "gitlab.privy.id/order_service/pkg/msgx"
+	"gitlab.privy.id/order_service/internal/bootstrap"
+	"gitlab.privy.id/order_service/internal/consts"
+	"gitlab.privy.id/order_service/internal/handler"
+	"gitlab.privy.id/order_service/internal/middleware"
+	"gitlab.privy.id/order_service/internal/ucase"
+	"gitlab.privy.id/order_service/pkg/logger"
+	"gitlab.privy.id/order_service/pkg/msgx"
+	"gitlab.privy.id/order_service/pkg/routerkit"
 
-    ucaseContract "gitlab.privy.id/order_service/internal/ucase/contract"
+	ucaseContract "gitlab.privy.id/order_service/internal/ucase/contract"
 )
 
 type router struct {
@@ -92,7 +92,7 @@ func (rtr *router) response(w http.ResponseWriter, resp appctx.Response) {
 // Route preparing http router and will return mux router object
 func (rtr *router) Route() *routerkit.Router {
 
-    rtr.router.NotFoundHandler = http.HandlerFunc(middleware.NotFound)
+	rtr.router.NotFoundHandler = http.HandlerFunc(middleware.NotFound)
 	root := rtr.router.PathPrefix("/").Subrouter()
 	in := root.PathPrefix("/in/").Subrouter()
 	liveness := root.PathPrefix("/").Subrouter()
@@ -103,10 +103,8 @@ func (rtr *router) Route() *routerkit.Router {
 	// open tracer setup
 	bootstrap.RegistryOpenTracing(rtr.config)
 
-    // create database session
-    //db := bootstrap.RegistryMultiDatabase(rtr.config.WriteDB, rtr.config.ReadDB)
-    //db := bootstrap.RegistryDatabase(rtr.config.WriteDB)
-
+	// create database session
+	db := bootstrap.RegistryDatabase(rtr.config.WriteDB)
 
 	// use case
 	healthy := ucase.NewHealthCheck()
@@ -117,31 +115,7 @@ func (rtr *router) Route() *routerkit.Router {
 		healthy,
 	)).Methods(http.MethodGet)
 
-	// this is use case for example purpose, please delete
-	//repoExample := repositories.NewExample(db)
-	//el := example.NewExampleList(repoExample)
-	//ec := example.NewPartnerCreate(repoExample)
-	//ed := example.NewExampleDelete(repoExample)
-
-	// TODO: create your route here
-
-	// this route for example rest, please delete
-	// example list
-	//inV1.HandleFunc("/example", rtr.handle(
-	//    handler.HttpRequest,
-	//    el,
-	//)).Methods(http.MethodGet)
-
-	//inV1.HandleFunc("/example", rtr.handle(
-	//    handler.HttpRequest,
-	//    ec,
-	//)).Methods(http.MethodPost)
-
-	//inV1.HandleFunc("/example/{id:[0-9]+}", rtr.handle(
-	//    handler.HttpRequest,
-	//    ed,
-	//)).Methods(http.MethodDelete)
-
+	OrderRoute(rtr, db)
 	return rtr.router
 
 }
