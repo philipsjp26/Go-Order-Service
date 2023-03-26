@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"gitlab.privy.id/order_service/internal/handler"
+	"gitlab.privy.id/order_service/internal/middleware"
 	repo "gitlab.privy.id/order_service/internal/repositories/order"
 	"gitlab.privy.id/order_service/internal/ucase"
 	"gitlab.privy.id/order_service/pkg/databasex"
@@ -17,6 +18,8 @@ func OrderRoute(rtr *router, db *databasex.DB) *routerkit.Router {
 
 	orderRepository := repo.NewOrderRepository(db)
 	orderUseCase := ucase.NewOrder(orderRepository)
+
+	rtr.router.Use(middleware.Authorize)
 
 	order.HandleFunc("", rtr.handle(
 		handler.HttpRequest,
