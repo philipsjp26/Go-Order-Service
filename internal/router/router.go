@@ -116,6 +116,7 @@ func (rtr *router) Route() *routerkit.Router {
 	)).Methods(http.MethodGet)
 
 	OrderRoute(rtr, db)
+	MenuRoute(rtr, db)
 	return rtr.router
 
 }
