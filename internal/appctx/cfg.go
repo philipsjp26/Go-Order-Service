@@ -30,8 +30,9 @@ func NewConfig() *Config {
 	return _cfg
 }
 
-//go:generate easytags $GOFILE yaml,json
 // Config object contract
+//
+//go:generate easytags $GOFILE yaml,json
 type Config struct {
 	App     *Common      `yaml:"app" json:"app"`
 	Logger  Logging      `yaml:"logger" json:"logger"`
@@ -42,7 +43,7 @@ type Config struct {
 	Kafka   *KafkaConfig `yaml:"kafka" json:"kafka"`
 	APM     APM          `yaml:"apm" json:"apm"`
 	Pubsub  PubSub       `yaml:"pubsub" json:"pubsub"`
-    GCS     GCS          `yaml:"gcs" json:"gcs"`
+	GCS     GCS          `yaml:"gcs" json:"gcs"`
 }
 
 // Common general config object contract
@@ -57,6 +58,7 @@ type Common struct {
 	ReadTimeoutSecond  int    `yaml:"read_timeout_second" json:"read_timeout_second"`
 	WriteTimeoutSecond int    `yaml:"write_timeout_second" json:"write_timeout_second"`
 	DefaultLang        string `yaml:"default_lang" json:"default_lang"`
+	UserServiceUrl     string `yaml:"user_service_url" json:"user_service_url"`
 }
 
 // Database configuration structure
@@ -71,8 +73,8 @@ type Database struct {
 	TimeoutSecond int    `yaml:"timeout_second" json:"timeout_second"`
 	MaxLifeTimeMS int    `yaml:"life_time_ms" json:"max_life_time_ms"`
 	Charset       string `yaml:"charset" json:"charset"`
-    Driver        string `yaml:"driver" json:"driver"`
-    Timezone      string `yaml:"timezone" json:"timezone"`
+	Driver        string `yaml:"driver" json:"driver"`
+	Timezone      string `yaml:"timezone" json:"timezone"`
 }
 
 // RedisConf general config redis
@@ -115,30 +117,32 @@ type SQS struct {
 
 // readCfg reads the configuration from file
 // args:
+//
 //	fname: filename
 //	ps: full path of possible configuration files
+//
 // returns:
+//
 //	*config.Configuration: configuration ptr object
 //	error: error operation
 func readCfg(fname string, ps ...string) (*Config, error) {
 	var cfg *Config
-    var errs []error
+	var errs []error
 
 	for _, p := range ps {
-        f := fmt.Sprint(p, fname)
+		f := fmt.Sprint(p, fname)
 
-        err := file.ReadFromYAML(f, &cfg)
-        if err != nil {
-            errs = append(errs, fmt.Errorf("file %s error %s", f, err.Error()))
-            continue
-        }
-        break
-    }
+		err := file.ReadFromYAML(f, &cfg)
+		if err != nil {
+			errs = append(errs, fmt.Errorf("file %s error %s", f, err.Error()))
+			continue
+		}
+		break
+	}
 
-
-    if cfg == nil {
-        return nil, fmt.Errorf("file config parse error %v", errs)
-    }
+	if cfg == nil {
+		return nil, fmt.Errorf("file config parse error %v", errs)
+	}
 
 	return cfg, nil
 }
@@ -171,10 +175,10 @@ type KafkaConfig struct {
 	Consumer KafkaConsumer `yaml:"consumer" json:"consumer"`
 	TLS      TLS           `yaml:"tls" json:"tls"`
 	// The number of events to buffer in internal and external channels. This
-    // permits the producer and consumer to continue processing some messages
-    // in the background while user code is working, greatly improving throughput.
-    // Defaults to 256.
-    ChannelBufferSize int `json:"channel_buffer_size" yaml:"channel_buffer_size"`
+	// permits the producer and consumer to continue processing some messages
+	// in the background while user code is working, greatly improving throughput.
+	// Defaults to 256.
+	ChannelBufferSize int `json:"channel_buffer_size" yaml:"channel_buffer_size"`
 }
 
 // KafkaProducer config
@@ -238,7 +242,7 @@ type SASL struct {
 
 // TLS config
 type TLS struct {
-    Enable bool `yaml:"enable" json:"enable"`
+	Enable     bool   `yaml:"enable" json:"enable"`
 	CaFile     string `yaml:"ca_file" json:"ca_file"`
 	KeyFile    string `yaml:"key_file" json:"key_file"`
 	CertFile   string `yaml:"cert_file" json:"cert_file"`

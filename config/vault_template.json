@@ -6,16 +6,14 @@
   "APP_ENV": "development",
   "APP_READ_TIMEOUT_SECOND": "10",
   "APP_WRITE_TIMEOUT_SECOND": "15",
-  "APP_KEY" : "",
+  "APP_KEY": "",
   "APP_DEFAULT_LANG": "id",
-
+  "USER_SERVICE_URL": "",
   "LOGGER_NAME": "order_service",
   "LOGGER_LEVEL": "info",
-
   "APM_ADDRESS": "",
   "APM_ENABLE": "false",
   "APM_SERVICE_NAME": "order_service",
-
   "REDIS_HOST": "",
   "REDIS_DB": "0",
   "REDIS_PASSWORD": "",
@@ -33,7 +31,6 @@
   "REDIS_CLUSTER_MODE": "false",
   "REDIS_TLS_ENABLE": "false",
   "REDIS_INSECURE_SKIP_VERIFY": "true",
-
   "DB_WRITE_DRIVER": "mysql",
   "DB_WRITE_HOST": "",
   "DB_WRITE_PORT": "3306",
@@ -46,7 +43,6 @@
   "DB_WRITE_LIFETIME": "30000",
   "DB_WRITE_CHARSET": "utf8",
   "DB_WRITE_TIMEZONE": "Asia/Jakarta",
-
   "DB_READ_DRIVER": "mysql",
   "DB_READ_HOST": "",
   "DB_READ_PORT": "3306",
@@ -59,11 +55,9 @@
   "DB_READ_LIFETIME": "30000",
   "DB_READ_CHARSET": "utf8",
   "DB_READ_TIMEZONE": "Asia/Jakarta",
-
   "GCS_CONFIG_LOCATION": "config/gcs_account.json",
   "GCS_BUCKET": "",
   "GCS_PREFIX": "",
-
   "PUBSUB_ACCOUNTPATH": "config/gcs_account.json",
   "PUBSUB_PROJECTID": "",
   "PUBSUB_TOPIC": ""

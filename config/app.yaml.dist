@@ -8,6 +8,7 @@ app:
   write_timeout_second: ${APP_WRITE_TIMEOUT_SECOND}
   key: "${APP_KEY}"
   default_lang: "${APP_DEFAULT_LANG}"
+  user_service_url: "${USER_SERVICE_URL}"
 
 logger:
   name: "${LOGGER_NAME}" # service name

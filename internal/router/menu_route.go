@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"gitlab.privy.id/order_service/internal/handler"
+	"gitlab.privy.id/order_service/internal/middleware"
 	repo "gitlab.privy.id/order_service/internal/repositories/menu"
 	"gitlab.privy.id/order_service/internal/ucase"
 	"gitlab.privy.id/order_service/pkg/databasex"
@@ -17,7 +18,7 @@ func MenuRoute(rtr *router, db *databasex.DB) *routerkit.Router {
 
 	menuRepository := repo.NewMenuRepository(db)
 	menuUseCase := ucase.NewMenu(menuRepository)
-
+	rtr.router.Use(middleware.Authorize)
 	menu.HandleFunc("", rtr.handle(
 		handler.HttpRequest,
 		menuUseCase,
